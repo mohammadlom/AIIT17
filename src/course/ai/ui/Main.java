@@ -1,5 +1,6 @@
 package course.ai.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,5 +31,24 @@ public class Main {
                 {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 92, 0, 87},
                 {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 87, 0}
         };
+
+        ArrayList<Node> map = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            ArrayList<Integer> hurNeighbours = new ArrayList<>();
+            ArrayList<City> neighbours = new ArrayList<>();
+            for (int j = 0; j < 20; j++) {
+                if (cities[i][j] == 0 || cities[i][j] == Integer.MAX_VALUE) continue;
+                hurNeighbours.add(cities[i][j]);
+                neighbours.add(City.values()[j]);
+            }
+            City neighberhood[] = new City[neighbours.size()];
+            for (int j = 0; j < neighbours.size(); j++) {
+                neighberhood[j] = neighbours.get(j);
+            }
+
+            Node n = new Node(String.valueOf(City.values()[i]), neighberhood, hurNeighbours);
+            map.add(n);
+        }
     }
 }
