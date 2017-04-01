@@ -8,8 +8,6 @@ import java.util.Map;
  */
 public class Main {
     public static void main(String[] args) {
-        HashMap<Integer, Node> cities = new HashMap<Integer, Node>();
-
 
     }
 }

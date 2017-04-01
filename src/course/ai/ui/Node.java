@@ -5,10 +5,10 @@ package course.ai.ui;
  */
 public class Node {
     String name;
-    Node neighbours[];
+    City neighbours[];
     int huristicToNeighbours [];
 
-    public Node(String name, Node[] neighbours, int[] huristicToNeighbours) {
+    public Node(String name, City[] neighbours, int[] huristicToNeighbours) {
         this.name = name;
         this.neighbours = neighbours;
         this.huristicToNeighbours = huristicToNeighbours;
