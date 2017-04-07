@@ -52,6 +52,10 @@ public class Main {
         Queue<Node> fringeFor = new LinkedList<>();
         Queue<Node> fringeBack = new LinkedList<>();
 
+        System.out.println("Please enter name of the first city:");
 
+        Scanner in = new Scanner(System.in);
+
+        fringeFor.add()
     }
 }
