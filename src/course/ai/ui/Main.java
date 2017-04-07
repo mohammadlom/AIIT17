@@ -1,8 +1,6 @@
 package course.ai.ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by mohammad_lom on 3/31/17.
@@ -50,5 +48,10 @@ public class Main {
             Node n = new Node(String.valueOf(City.values()[i]), neighberhood, hurNeighbours);
             map.add(n);
         }
+
+        Queue<Node> fringeFor = new LinkedList<>();
+        Queue<Node> fringeBack = new LinkedList<>();
+
+
     }
 }

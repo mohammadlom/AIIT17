@@ -10,7 +10,7 @@ public enum City {
     Sibiu(3),
     Timisoara(4),
     Fagaras(5),
-    RimnicuVilvea(6),
+    RimnicuVicea(6),
     Lugoj(7),
     Mehadia(8),
     Pitesti(9),
