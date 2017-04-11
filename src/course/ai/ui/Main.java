@@ -49,13 +49,42 @@ public class Main {
             map.add(n);
         }
 
-        Queue<Node> fringeFor = new LinkedList<>();
-        Queue<Node> fringeBack = new LinkedList<>();
-
         System.out.println("Please enter name of the first city:");
 
         Scanner in = new Scanner(System.in);
 
-        fringeFor.add()
+        String srcCity = in.nextLine();
+
+        System.out.println("Please enter name of the second city:");
+
+        String dsnCity = in.nextLine();
+
+        HashSet<Node> forSet = new HashSet<>();
+        HashSet<Node> backSet = new HashSet<>();
+
+        Queue<Node> forQueue = new LinkedList<>();
+        Queue<Node> backQueue = new LinkedList<>();
+
+        for (Node n: map
+             ) {
+            if(n.name.equals(srcCity)) {
+                forSet.add(n);
+                forQueue.add(n);
+            }else if(n.name.equals(dsnCity)) {
+                backSet.add(n);
+                backQueue.add(n);
+            }
+        }
+
+        while (!forQueue.isEmpty() || !backQueue.isEmpty()){
+            Node forCurrent = forQueue.poll();
+            if(backSet.contains(forCurrent) || forCurrent.name.equals(dsnCity))
+                System.out.println("finded");
+            for (City: forCurrent.neighbours
+                 ) {
+
+            }
+        }
+
     }
 }
