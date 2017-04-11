@@ -78,10 +78,40 @@ public class Main {
 
         while (!forQueue.isEmpty() || !backQueue.isEmpty()){
             Node forCurrent = forQueue.poll();
-            if(backSet.contains(forCurrent) || forCurrent.name.equals(dsnCity))
+            Node backCurrent = backQueue.poll();
+            if(backSet.contains(forCurrent) || forCurrent.name.equals(dsnCity)
+                    || forSet.contains(backCurrent) || backCurrent.name.equals(srcCity))
                 System.out.println("finded");
-            for (City: forCurrent.neighbours
+            for (City c: forCurrent.neighbours
                  ) {
+                 boolean flag = false;
+                 for (Node n: map
+                    ) {
+                    if(n.name == c.name()) {
+                        if(!forSet.contains(n)){
+                            forSet.add(n);
+                            forQueue.add(n);
+                        }
+                        flag = true;
+                        break;
+                    }
+                 }
+
+            }
+            for (City c: backCurrent.neighbours
+                    ) {
+                boolean flag = false;
+                for (Node n: map
+                        ) {
+                    if(n.name == c.name()) {
+                        if(!backSet.contains(n)){
+                            backSet.add(n);
+                            backQueue.add(n);
+                        }
+                        flag = true;
+                        break;
+                    }
+                }
 
             }
         }
