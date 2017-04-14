@@ -113,6 +113,7 @@ public class Main {
                         }
                     }
                     forCurrent = forCurrent.parent;
+                    System.err.println("iterate");
                 }
                 Node tmp = null;
                 for (Node n:backSet
