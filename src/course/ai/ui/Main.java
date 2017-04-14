@@ -57,167 +57,67 @@ public class Main {
 
         System.out.println("Please enter name of the second city:");
 
-        String dsnCity = "Bucharest";
+        String dsnCity = "Arad";
 
-        HashSet<Node> forSet = new HashSet<>();
-        HashSet<Node> backSet = new HashSet<>();
+        ArrayList<Node> children1 = new ArrayList<>();
+        ArrayList<Node> children2 = new ArrayList<>();
 
-        Queue<Node> forQueue = new LinkedList<>();
-        Queue<Node> backQueue = new LinkedList<>();
+        Queue<Node> Fringe_IN = new LinkedList<>();
+        Queue<Node> Fringe_GO = new LinkedList<>();
+        Fringe_IN.add(findNode(srcCity, map));
+        Fringe_GO.add(findNode(dsnCity, map));
+        int dis = 0;
+        while(!Fringe_IN.isEmpty() && !Fringe_GO.isEmpty())
+        {
+            Node parent1 = Fringe_IN.poll();
+            System.out.println("City " + parent1.name + " visited!");
+            if(parent1.name.equals(dsnCity) || Fringe_GO.contains(parent1))
+            {
+                System.out.println("\nFind Goal   "+parent1.name);
+                break;
+            }
+            children1 = getChilds(parent1, map);
+            for (int i = 0; i < children1.size(); i++) {
+                Node n = children1.get(i);
+                n.parent = parent1;
+                Fringe_IN.add(n);
+            }
 
-        for (Node n: map
-             ) {
-            if(n.name.equals(srcCity)) {
-                forSet.add(n);
-                forQueue.add(n);
-            }else if(n.name.equals(dsnCity)) {
-                backSet.add(n);
-                backQueue.add(n);
+            Node parent2 = Fringe_GO.poll();
+            System.out.println("City " + parent2.name + " visited!");
+            if(parent2.name.equals(srcCity) || Fringe_IN.contains(parent2))
+            {
+                System.out.println("Find Goal    "+parent2.name);
+                break;
+            }
+            children2 = getChilds(parent2, map);
+            for (int i = 0; i < children2.size(); i++) {
+                Node n = children2.get(i);
+                n.parent = parent2;
+                Fringe_GO.add(n);
             }
         }
+    }
 
-        while (!forQueue.isEmpty() || !backQueue.isEmpty()){
-            Node forCurrent = forQueue.poll();
-            Node backCurrent = backQueue.poll();
-            if(backSet.contains(forCurrent) || forCurrent.name.equals(dsnCity)
-                    || forSet.contains(backCurrent) || backCurrent.name.equals(srcCity)) {
-                //print info
-                System.out.println("These nodes are in forward fringe:");
-                for (Node n:forQueue
-                     ) {
-                    System.out.print(n.name + ", ");
+    private static ArrayList<Node> getChilds(Node parent1, ArrayList<Node> map) {
+        ArrayList<Node> childs = new ArrayList<>();
+        for (City c:parent1.neighbours
+                ) {
+            for (int i = 0; i < map.size(); i++) {
+                if (c.name().equals(map.get(i).name)){
+                    childs.add(map.get(i));
+                    break;
                 }
-                System.out.println("");
-                System.out.println("These nodes are in backward fringe:");
-                for (Node n:backQueue
-                        ) {
-                    System.out.print(n.name + ", ");
-                }
-                System.out.println("");
-                System.out.println("These nodes are expanded:");
-                for (Node n: forSet
-                     ) {
-                    System.out.print(n.name + ", ");
-                }
-                for (Node n: backSet
-                     ) {
-                    System.out.print(n.name + ", ");
-                }
-            }
-            if(backSet.contains(forCurrent)){
-                int dis = 0;
-                while(!forCurrent.parent.equals(null)){
-                    for (int i = 0; i < forCurrent.neighbours.length; i++) {
-                        if(forCurrent.neighbours[i].name().equals(forCurrent.parent.name)){
-                            dis += forCurrent.huristicToNeighbours.get(i);
-                        }
-                    }
-                    forCurrent = forCurrent.parent;
-                    System.err.println("iterate");
-                }
-                Node tmp = null;
-                for (Node n:backSet
-                     ) {
-                    tmp = n;
-                }
-                while(!tmp.parent.equals(null)){
-                    for (int i = 0; i < tmp.neighbours.length; i++) {
-                        if(tmp.neighbours[i].name().equals(tmp.parent.name)){
-                            dis += tmp.huristicToNeighbours.get(i);
-                        }
-                    }
-                    tmp = tmp.parent;
-                }
-                System.out.println("distance to travell: " + dis);
-                break;
-            }
-            if(forSet.contains(backCurrent)){
-                int dis = 0;
-                while(!backCurrent.parent.equals(null)){
-                    for (int i = 0; i < backCurrent.neighbours.length; i++) {
-                        if(backCurrent.neighbours[i].name().equals(backCurrent.parent.name)){
-                            dis += backCurrent.huristicToNeighbours.get(i);
-                        }
-                    }
-                    backCurrent = backCurrent.parent;
-                }
-                Node tmp = null;
-                for (Node n:forSet
-                        ) {
-                    tmp = n;
-                }
-                while(!tmp.parent.equals(null)){
-                    for (int i = 0; i < tmp.neighbours.length; i++) {
-                        if(tmp.neighbours[i].name().equals(tmp.parent.name)){
-                            dis += tmp.huristicToNeighbours.get(i);
-                        }
-                    }
-                    tmp = tmp.parent;
-                }
-                System.out.println("distance to travell: " + dis);
-                break;
-            }
-            if(forCurrent.name.equals(dsnCity)){
-                int dis = 0;
-                while(!forCurrent.parent.equals(null)){
-                    for (int i = 0; i < forCurrent.neighbours.length; i++) {
-                        if(forCurrent.neighbours[i].name().equals(forCurrent.parent.name)){
-                            dis += forCurrent.huristicToNeighbours.get(i);
-                        }
-                    }
-                    forCurrent = forCurrent.parent;
-                }
-                break;
-            }
-            if(backCurrent.name.equals(srcCity)){
-                int dis = 0;
-                while(!backCurrent.parent.equals(null)){
-                    for (int i = 0; i < backCurrent.neighbours.length; i++) {
-                        if(backCurrent.neighbours[i].name().equals(backCurrent.parent.name)){
-                            dis += backCurrent.huristicToNeighbours.get(i);
-                        }
-                    }
-                    backCurrent = backCurrent.parent;
-                }
-                break;
-            }
-            for (City c: forCurrent.neighbours
-                 ) {
-                 boolean flag = false;
-                 for (Node n: map
-                    ) {
-                    if(n.name == c.name()) {
-                        if(!forSet.contains(n)){
-                            n.parent = forCurrent;
-                            forSet.add(n);
-                            forQueue.add(n);
-                        }
-                        flag = true;
-                        break;
-                    }
-                 }
-
-            }
-            for (City c: backCurrent.neighbours
-                    ) {
-                boolean flag = false;
-                for (Node n: map
-                        ) {
-                    if(n.name == c.name()) {
-                        if(!backSet.contains(n)){
-                            n.parent = backCurrent;
-                            backSet.add(n);
-                            backQueue.add(n);
-                        }
-                        flag = true;
-                        break;
-                    }
-                }
-
             }
         }
+        return childs;
+    }
 
-
-
+    private static Node findNode(String srcCity, ArrayList<Node> map) {
+        for (Node n:map
+                ) {
+            if(n.name.equals(srcCity)) return n;
+        }
+        return null;
     }
 }
