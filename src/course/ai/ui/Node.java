@@ -9,6 +9,7 @@ public class Node {
     String name;
     City neighbours[];
     ArrayList<Integer> huristicToNeighbours;
+    Node parent;
 
     public Node(String name, City[] neighbours, ArrayList<Integer> huristicToNeighbours) {
         this.name = name;

@@ -53,11 +53,11 @@ public class Main {
 
         Scanner in = new Scanner(System.in);
 
-        String srcCity = in.nextLine();
+        String srcCity = "Oradea";
 
         System.out.println("Please enter name of the second city:");
 
-        String dsnCity = in.nextLine();
+        String dsnCity = "Bucharest";
 
         HashSet<Node> forSet = new HashSet<>();
         HashSet<Node> backSet = new HashSet<>();
@@ -80,8 +80,31 @@ public class Main {
             Node forCurrent = forQueue.poll();
             Node backCurrent = backQueue.poll();
             if(backSet.contains(forCurrent) || forCurrent.name.equals(dsnCity)
-                    || forSet.contains(backCurrent) || backCurrent.name.equals(srcCity))
-                System.out.println("finded");
+                    || forSet.contains(backCurrent) || backCurrent.name.equals(srcCity)) {
+                //print info
+                System.out.println("These nodes are in forward fringe:");
+                for (Node n:forQueue
+                     ) {
+                    System.out.print(n.name + ", ");
+                }
+                System.out.println("");
+                System.out.println("These nodes are in backward fringe:");
+                for (Node n:backQueue
+                        ) {
+                    System.out.print(n.name + ", ");
+                }
+                System.out.println("");
+                System.out.println("These nodes are expanded:");
+                for (Node n: forSet
+                     ) {
+                    System.out.print(n.name + ", ");
+                }
+                for (Node n: backSet
+                     ) {
+                    System.out.print(n.name + ", ");
+                }
+                break;
+            }
             for (City c: forCurrent.neighbours
                  ) {
                  boolean flag = false;
@@ -89,6 +112,7 @@ public class Main {
                     ) {
                     if(n.name == c.name()) {
                         if(!forSet.contains(n)){
+                            n.parent = forCurrent;
                             forSet.add(n);
                             forQueue.add(n);
                         }
@@ -105,6 +129,7 @@ public class Main {
                         ) {
                     if(n.name == c.name()) {
                         if(!backSet.contains(n)){
+                            n.parent = backCurrent;
                             backSet.add(n);
                             backQueue.add(n);
                         }
@@ -115,6 +140,8 @@ public class Main {
 
             }
         }
+
+
 
     }
 }
