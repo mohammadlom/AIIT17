@@ -103,6 +103,81 @@ public class Main {
                      ) {
                     System.out.print(n.name + ", ");
                 }
+            }
+            if(backSet.contains(forCurrent)){
+                int dis = 0;
+                while(!forCurrent.parent.equals(null)){
+                    for (int i = 0; i < forCurrent.neighbours.length; i++) {
+                        if(forCurrent.neighbours[i].name().equals(forCurrent.parent.name)){
+                            dis += forCurrent.huristicToNeighbours.get(i);
+                        }
+                    }
+                    forCurrent = forCurrent.parent;
+                }
+                Node tmp = null;
+                for (Node n:backSet
+                     ) {
+                    tmp = n;
+                }
+                while(!tmp.parent.equals(null)){
+                    for (int i = 0; i < tmp.neighbours.length; i++) {
+                        if(tmp.neighbours[i].name().equals(tmp.parent.name)){
+                            dis += tmp.huristicToNeighbours.get(i);
+                        }
+                    }
+                    tmp = tmp.parent;
+                }
+                System.out.println("distance to travell: " + dis);
+                break;
+            }
+            if(forSet.contains(backCurrent)){
+                int dis = 0;
+                while(!backCurrent.parent.equals(null)){
+                    for (int i = 0; i < backCurrent.neighbours.length; i++) {
+                        if(backCurrent.neighbours[i].name().equals(backCurrent.parent.name)){
+                            dis += backCurrent.huristicToNeighbours.get(i);
+                        }
+                    }
+                    backCurrent = backCurrent.parent;
+                }
+                Node tmp = null;
+                for (Node n:forSet
+                        ) {
+                    tmp = n;
+                }
+                while(!tmp.parent.equals(null)){
+                    for (int i = 0; i < tmp.neighbours.length; i++) {
+                        if(tmp.neighbours[i].name().equals(tmp.parent.name)){
+                            dis += tmp.huristicToNeighbours.get(i);
+                        }
+                    }
+                    tmp = tmp.parent;
+                }
+                System.out.println("distance to travell: " + dis);
+                break;
+            }
+            if(forCurrent.name.equals(dsnCity)){
+                int dis = 0;
+                while(!forCurrent.parent.equals(null)){
+                    for (int i = 0; i < forCurrent.neighbours.length; i++) {
+                        if(forCurrent.neighbours[i].name().equals(forCurrent.parent.name)){
+                            dis += forCurrent.huristicToNeighbours.get(i);
+                        }
+                    }
+                    forCurrent = forCurrent.parent;
+                }
+                break;
+            }
+            if(backCurrent.name.equals(srcCity)){
+                int dis = 0;
+                while(!backCurrent.parent.equals(null)){
+                    for (int i = 0; i < backCurrent.neighbours.length; i++) {
+                        if(backCurrent.neighbours[i].name().equals(backCurrent.parent.name)){
+                            dis += backCurrent.huristicToNeighbours.get(i);
+                        }
+                    }
+                    backCurrent = backCurrent.parent;
+                }
                 break;
             }
             for (City c: forCurrent.neighbours
