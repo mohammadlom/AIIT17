@@ -6,6 +6,7 @@ import java.util.*;
  * Created by mohammad_lom on 3/31/17.
  */
 public class Main {
+
     public static void main(String[] args) {
         int cities[][] = {
                 {0, 71, Integer.MAX_VALUE, 151, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE},
@@ -22,7 +23,7 @@ public class Main {
                 {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 146, Integer.MAX_VALUE, Integer.MAX_VALUE, 138, 120, 0, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE},
                 {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 211, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 101, Integer.MAX_VALUE, Integer.MAX_VALUE, 0, 90, 85, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE},
                 {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 90, 0, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE},
-                {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 85, Integer.MAX_VALUE, 0, 98, Integer.MAX_VALUE, 142, Integer.MAX_VALUE, Integer.MAX_VALUE},
+                {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 85, Integer.MAX_VALUE, 0, 98, Integer.MAX_VALUE, 142, Integer.MAX_VALUE, Integer.MAX_VALUE},
                 {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 98, 0, 86, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE},
                 {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 86, 0, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE},
                 {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 142, Integer.MAX_VALUE, Integer.MAX_VALUE, 0, 92, Integer.MAX_VALUE},
@@ -30,40 +31,20 @@ public class Main {
                 {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 87, 0}
         };
 
-//        ArrayList<Node> map = new ArrayList<>();
-//
-//        for (int i = 0; i < 20; i++) {
-//            ArrayList<Integer> hurNeighbours = new ArrayList<>();
-//            ArrayList<City> neighbours = new ArrayList<>();
-//            for (int j = 0; j < 20; j++) {
-//                if (cities[i][j] == 0 || cities[i][j] == Integer.MAX_VALUE) continue;
-//                hurNeighbours.add(cities[i][j]);
-//                neighbours.add(City.values()[j]);
-//            }
-//            City neighberhood[] = new City[neighbours.size()];
-//            for (int j = 0; j < neighbours.size(); j++) {
-//                neighberhood[j] = neighbours.get(j);
-//            }
-//
-//            Node n = new Node(String.valueOf(City.values()[i]), neighberhood, hurNeighbours);
-//            map.add(n);
-//        }
-
         System.out.println("Please enter name of the first city:");
 
         Scanner in = new Scanner(System.in);
 
-        String srcCity = "Oradea";
+        String srcCity = in.nextLine();
 
         System.out.println("Please enter name of the second city:");
 
-        String dsnCity = "Bucharest";
+        String dsnCity = in.nextLine();
 
         boolean flag[] = new boolean[20];
         Arrays.fill(flag, false);
 
-        ArrayList<Node> children1 = new ArrayList<>();
-        ArrayList<Node> children2 = new ArrayList<>();
+        ArrayList<Node> visited = new ArrayList<>();
 
         Queue<Node> Fringe_IN = new LinkedList<>();
         Queue<Node> Fringe_GO = new LinkedList<>();
@@ -76,30 +57,78 @@ public class Main {
 
         Fringe_IN.add(src);
         Fringe_GO.add(dis);
-//        int dis = 0;
-        while(!Fringe_IN.isEmpty() && !Fringe_GO.isEmpty())
-        {
+        while (!Fringe_IN.isEmpty() && !Fringe_GO.isEmpty()) {
             Node parent1 = Fringe_IN.poll();
-
+            visited.add(parent1);
             int n = City.valueOf(parent1.name).getID();
 
-//            if(flag[n] == true) continue;
-            flag[n] = true;
-            System.out.println("City " + parent1.name + " visited!");
-            if(parent1.name.equals(dsnCity) || containsNode(parent1.name, Fringe_GO))
-            {
-                System.out.println("\nFind Goal   "+parent1.name);
-                break;
-
-
-
+            if (flag[n] == true) {
+                continue;
             }
-            //  children1 = getChilds(parent1, map);
+            flag[n] = true;
+            if (parent1.name.equals(dsnCity) || containsNode(parent1.name, Fringe_GO) != null) {
+                System.out.println("Find Goal");
+
+                String path1[] = parent1.path.split("-");
+
+                String path2[] = visited.get(visited.size() - 2).path.split("-");
+
+                for (int i = 0; i < path1.length; i++) {
+                    System.out.print(path1[i] + ", ");
+                }
+
+                for (int i = path2.length - 1; i >= 0; i--) {
+                    if (i != 0) {
+                        System.out.print(path2[i] + ", ");
+                    } else {
+                        System.out.println(path2[i]);
+                    }
+                }
+
+                System.out.println("Visited Nodes in tree:");
+
+                for (int i = 0; i < visited.size(); i++) {
+                    if (i != visited.size() - 1) {
+                        System.out.print(visited.get(i).name + ", ");
+                    } else {
+                        System.out.println(visited.get(i).name);
+                    }
+                }
+
+                System.out.println("Expanded Nodes in tree:");
+
+                for (Node node : Fringe_GO) {
+                    System.out.print(node.name + ", ");
+                }
+
+                for (Node node : Fringe_IN) {
+                    System.out.print(node.name + ", ");
+                }
+                System.out.println("");
+
+                System.out.println("Distance to Travel(g(n)):");
+
+                int dist = 0;
+
+                dist += parent1.dist;
+
+                if (!parent1.name.equals(dsnCity)) {
+                    dist += visited.get(visited.size() - 2).dist;
+                }
+
+                if (containsNode(parent1.name, Fringe_GO) != null) {
+                    dist += cities[n][City.valueOf(visited.get(visited.size() - 2).name).getID()];
+                }
+                System.out.println(dist);
+                break;
+            }
+            ArrayList<Node> children1 = new ArrayList<>();
+
             for (int i = 0; i < cities[n].length; i++) {
-                if(cities[n][i] != Integer.MAX_VALUE && cities[n][i] != 0){
+                if (cities[n][i] != Integer.MAX_VALUE && cities[n][i] != 0) {
                     Node n2 = new Node(String.valueOf(City.values()[i]));
                     n2.dist = parent1.dist + cities[n][i];
-                    n2.path = parent1.path+"-"+String.valueOf(City.values()[i]);
+                    n2.path = parent1.path + "-" + String.valueOf(City.values()[i]);
                     children1.add(n2);
                 }
             }
@@ -110,22 +139,95 @@ public class Main {
             }
 
             Node parent2 = Fringe_GO.poll();
+            visited.add(parent2);
+
             int nn = City.valueOf(parent2.name).getID();
 
-//            if(flag[nn] == true) continue;
+            if (flag[nn] == true) {
+                continue;
+            }
             flag[nn] = true;
-            System.out.println("City " + parent2.name + " visited!");
-            if(parent2.name.equals(srcCity) || containsNode(parent2.name, Fringe_IN))
-            {
-                System.out.println("Find Goal    "+parent2.name);
+            if (parent2.name.equals(srcCity) || containsNode(parent2.name, Fringe_IN) != null) {
+                System.out.println("Find Goal");
+
+                String path1[] = parent1.path.split("-");
+
+                Node node = containsNode(parent2.name, Fringe_IN);
+
+                if (node != null) {
+                    path1 = node.path.split("-");
+                }
+
+                String path2[] = parent2.path.split("-");
+                if (!parent2.name.equals(srcCity)) {
+                    for (int i = 0; i < path1.length; i++) {
+                        System.out.print(path1[i] + ", ");
+                    }
+                }
+
+                for (int i = path2.length - 1; i >= 0; i--) {
+                    if (i != 0) {
+                        System.out.print(path2[i] + ", ");
+                    } else {
+                        System.out.println(path2[i]);
+                    }
+                }
+
+                System.out.println("Visited Nodes in tree:");
+
+                for (int i = 0; i < visited.size(); i++) {
+                    if (i != visited.size() - 1) {
+                        System.out.print(visited.get(i).name + ", ");
+                    } else {
+                        System.out.println(visited.get(i).name);
+                    }
+                }
+
+                System.out.println("Expanded Nodes in tree:");
+
+                for (Node tmp : Fringe_GO) {
+                    System.out.print(tmp.name + ", ");
+                }
+
+                for (Node tmp : Fringe_IN) {
+                    System.out.print(tmp.name + ", ");
+                }
+                System.out.println("");
+
+                System.out.println("Distance to Travel(g(n)):");
+
+                int dist = 0;
+
+                dist += parent2.dist;
+
+                if (node != null) {
+
+                    if (!parent2.name.equals(srcCity)) {
+                        dist += node.dist;
+                    }
+
+                    if (containsNode(parent2.name, Fringe_IN) != null) {
+                        dist += cities[nn][City.valueOf(node.name).getID()];
+                    }
+                } else {
+                    if (!parent2.name.equals(srcCity)) {
+                        dist += visited.get(visited.size() - 2).dist;
+                    }
+
+                    if (containsNode(parent2.name, Fringe_IN) != null) {
+                        dist += cities[nn][City.valueOf(visited.get(visited.size() - 2).name).getID()];
+                    }
+                }
+                System.out.println(dist);
                 break;
             }
-            //children2 = getChilds(parent2, map);
+            ArrayList<Node> children2 = new ArrayList<>();
+
             for (int i = 0; i < cities[nn].length; i++) {
-                if(cities[nn][i] != Integer.MAX_VALUE && cities[nn][i] != 0){
+                if (cities[nn][i] != Integer.MAX_VALUE && cities[nn][i] != 0) {
                     Node n2 = new Node(String.valueOf(City.values()[i]));
                     n2.dist = parent2.dist + cities[nn][i];
-                    n2.path = parent2.path+"-"+String.valueOf(City.values()[i]);
+                    n2.path = parent2.path + "-" + String.valueOf(City.values()[i]);
                     children2.add(n2);
                 }
             }
@@ -137,33 +239,34 @@ public class Main {
         }
     }
 
-    private static ArrayList<Node> getChilds(Node parent1, ArrayList<Node> map) {
-        ArrayList<Node> childs = new ArrayList<>();
-        for (City c:parent1.neighbours
-                ) {
-            for (int i = 0; i < map.size(); i++) {
-                if (c.name().equals(map.get(i).name)){
-                    childs.add(map.get(i));
-                    break;
-                }
-            }
-        }
-        return childs;
-    }
+//    private static ArrayList<Node> getChilds(Node parent1, ArrayList<Node> map) {
+//        ArrayList<Node> childs = new ArrayList<>();
+//        for (City c : parent1.neighbours) {
+//            for (int i = 0; i < map.size(); i++) {
+//                if (c.name().equals(map.get(i).name)) {
+//                    childs.add(map.get(i));
+//                    break;
+//                }
+//            }
+//        }
+//        return childs;
+//    }
 
     private static Node findNode(String srcCity, ArrayList<Node> map) {
-        for (Node n:map
-                ) {
-            if(n.name.equals(srcCity)) return n;
+        for (Node n : map) {
+            if (n.name.equals(srcCity)) {
+                return n;
+            }
         }
         return null;
     }
 
-    private static boolean containsNode(String name, Queue<Node> Fringe){
+    private static Node containsNode(String name, Queue<Node> Fringe) {
         for (Node node : Fringe) {
-            if(node.name.equals(name))
-                return true;
+            if (node.name.equals(name)) {
+                return node;
+            }
         }
-        return false;
+        return null;
     }
 }
