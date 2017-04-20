@@ -239,28 +239,6 @@ public class Main {
         }
     }
 
-//    private static ArrayList<Node> getChilds(Node parent1, ArrayList<Node> map) {
-//        ArrayList<Node> childs = new ArrayList<>();
-//        for (City c : parent1.neighbours) {
-//            for (int i = 0; i < map.size(); i++) {
-//                if (c.name().equals(map.get(i).name)) {
-//                    childs.add(map.get(i));
-//                    break;
-//                }
-//            }
-//        }
-//        return childs;
-//    }
-
-    private static Node findNode(String srcCity, ArrayList<Node> map) {
-        for (Node n : map) {
-            if (n.name.equals(srcCity)) {
-                return n;
-            }
-        }
-        return null;
-    }
-
     private static Node containsNode(String name, Queue<Node> Fringe) {
         for (Node node : Fringe) {
             if (node.name.equals(name)) {
